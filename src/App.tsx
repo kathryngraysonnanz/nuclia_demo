@@ -10,17 +10,6 @@ function App() {
   const [searchTerm, setSearchTerm] = useState(''); 
   const [userInput, setUserInput] = useState(''); 
 
- useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (userInput) {
-        setSearchTerm(userInput.trim());
-        console.log('Search Term updated:', userInput.trim());
-      }
-    }, 500); // Wait 500ms after the user stops typing
-
-    return () => clearTimeout(delayDebounceFn); // Cleanup the timeout on component unmount or userInput change
-  }, [userInput]);
-
   console.log('home search', searchTerm);
 
   return (
@@ -41,13 +30,26 @@ function App() {
             <Sparkle className="w-6 h-6 text-blue-500" />
             <h2 className="text-3xl">How can we help you today?</h2>
           </div>
-          <input
-            type="text"
-            placeholder="What are you curious about?"
-            value={userInput}
-            onChange={(e) => setUserInput(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          />
+          <div className="flex space-x-2">
+            <input
+              type="text"
+              placeholder="What are you curious about?"
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  setSearchTerm(userInput.trim());
+                }
+              }}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+            <button
+              onClick={() => setSearchTerm(userInput.trim())}
+              className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </div>
        <div>

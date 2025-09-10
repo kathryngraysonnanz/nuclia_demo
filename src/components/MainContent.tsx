@@ -50,6 +50,7 @@ const MainContent: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
   const [streamedText, setStreamedText] = useState('');
   const [retrievalResults, setRetrievalResults] = useState<RetrievalResource[]>([]);
   const [currentQuery, setCurrentQuery] = useState(defaultQuery);
+  const [keyword, setKeyword] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     if (searchTerm) {
@@ -60,6 +61,9 @@ const MainContent: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
         description: 'Learn about Progress\'s core capabilities and features'
       };
       setCurrentQuery(searchQuery);
+
+       const keywords = ["CMS", "AI", "sitefinity", "testing", "test", "automate", "file transfer", "corticon", "moveit"];
+        setKeyword(keywords.find((keyword) => searchTerm.includes(keyword)));
     }
   }, [searchTerm]);
 
@@ -430,11 +434,11 @@ const MainContent: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
                 {response.answer}
               </ReactMarkdown>
             </div>
-            {searchTerm && 
+            {searchTerm && keyword && 
             <button
               className="inline-flex items-center space-x-2 bg-green-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition-all duration-200 shadow-md hover:shadow-lg"
             >
-             Learn more about {searchTerm}
+             Learn More About {keyword.charAt(0).toUpperCase() + keyword.slice(1)}
             </button>
             }
           </div>
